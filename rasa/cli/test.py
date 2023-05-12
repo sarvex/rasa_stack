@@ -142,9 +142,7 @@ def test_nlu(args: argparse.Namespace, model_path: Optional[Text] = None
     args.model = get_validated_path(args.model, "model", DEFAULT_MODELS_PATH)
     nlu_data = get_validated_path(args.nlu, "nlu", DEFAULT_DATA_PATH)
     nlu_data = data.get_nlu_directory(nlu_data)
-    model_path = model_path or args.model
-
-    if model_path:
+    if model_path := model_path or args.model:
         test_nlu(nlu_data=nlu_data, **vars(args))
     else:
         print("No model specified. Model will be trained using cross "

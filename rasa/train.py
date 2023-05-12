@@ -67,14 +67,13 @@ def train(domain: Text, config: Text, training_files: Union[Text, List[Text]],
         output = create_output_path(output)
         model.create_package_rasa(train_path, output, new_fingerprint)
 
-        print("Train path: '{}'.".format(train_path))
+        print(f"Train path: '{train_path}'.")
 
         print_success("Your bot is trained and ready to take for a spin!")
 
         return output
     else:
-        print("Nothing changed. You can use the old model: '{}'."
-              "".format(old_model))
+        print(f"Nothing changed. You can use the old model: '{old_model}'.")
 
         return old_model
 
@@ -111,8 +110,7 @@ def train_core(domain: Text, config: Text, stories: Text, output: Text,
         new_fingerprint = model.model_fingerprint(config, domain,
                                                   stories=stories)
         model.create_package_rasa(train_path, output_path, new_fingerprint)
-        print_success("Your Rasa Core model is trained and saved at '{}'."
-                      "".format(output_path))
+        print_success(f"Your Rasa Core model is trained and saved at '{output_path}'.")
 
     return core_model
 
@@ -146,7 +144,6 @@ def train_nlu(config: Text, nlu_data: Text, output: Text,
         output_path = create_output_path(output, prefix="nlu-")
         new_fingerprint = model.model_fingerprint(config, nlu_data=nlu_data)
         model.create_package_rasa(_train_path, output_path, new_fingerprint)
-        print_success("Your Rasa NLU model is trained and saved at '{}'."
-                      "".format(output_path))
+        print_success(f"Your Rasa NLU model is trained and saved at '{output_path}'.")
 
     return nlu_model

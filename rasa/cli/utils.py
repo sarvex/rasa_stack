@@ -25,8 +25,9 @@ def get_validated_path(current: Optional[Text], parameter: Text,
     if (current is None or
             current is not None and not os.path.exists(current)):
         if default is not None and os.path.exists(default):
-            print_warning("'{}' not found. Using default location '{}' instead."
-                          "".format(current, default))
+            print_warning(
+                f"'{current}' not found. Using default location '{default}' instead."
+            )
             current = default
         elif none_is_valid:
             current = None
@@ -50,10 +51,10 @@ def cancel_cause_not_found(current: Optional[Text], parameter: Text,
 
     default_clause = ""
     if default:
-        default_clause = ("use the default location ('{}') or "
-                          "".format(default))
-    print_error("The path '{}' does not exist. Please make sure to {}specify it"
-                " with '--{}'.".format(current, default_clause, parameter))
+        default_clause = f"use the default location ('{default}') or "
+    print_error(
+        f"The path '{current}' does not exist. Please make sure to {default_clause}specify it with '--{parameter}'."
+    )
     exit(1)
 
 
@@ -84,10 +85,9 @@ def create_output_path(output_path: Text = DEFAULT_MODELS_PATH,
 
     if output_path.endswith("tar.gz"):
         return output_path
-    else:
-        time_format = "%Y%m%d-%H%M%S"
-        file_name = "{}{}.tar.gz".format(prefix, time.strftime(time_format))
-        return os.path.join(output_path, file_name)
+    time_format = "%Y%m%d-%H%M%S"
+    file_name = f"{prefix}{time.strftime(time_format)}.tar.gz"
+    return os.path.join(output_path, file_name)
 
 
 def minimal_kwargs(kwargs: Dict[Text, Any], func: Callable) -> Dict[Text, Any]:

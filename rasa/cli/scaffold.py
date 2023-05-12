@@ -23,9 +23,9 @@ def add_subparser(subparsers: argparse._SubParsersAction,
 
 def print_train_or_instructions(args: argparse.Namespace, path: Text) -> None:
     print_success("Your bot is ready to go!")
-    should_train = questionary.confirm("Do you want me to train an initial "
-                                       "model for the bot? 💪🏽").ask()
-    if should_train:
+    if should_train := questionary.confirm(
+        "Do you want me to train an initial " "model for the bot? 💪🏽"
+    ).ask():
         config = os.path.join(path, DEFAULT_CONFIG_PATH)
         training_files = os.path.join(path, DEFAULT_DATA_PATH)
         domain = os.path.join(path, DEFAULT_DOMAIN_PATH)
@@ -44,10 +44,9 @@ def print_train_or_instructions(args: argparse.Namespace, path: Text) -> None:
 def print_run_or_instructions(args: argparse.Namespace, path: Text) -> None:
     from rasa_core import constants
 
-    should_run = questionary.confirm("Do you want to speak to the trained bot "
-                                     "on the command line? 🤖").ask()
-
-    if should_run:
+    if should_run := questionary.confirm(
+        "Do you want to speak to the trained bot " "on the command line? 🤖"
+    ).ask():
         # provide defaults for command line arguments
         attributes = ["endpoints", "credentials", "cors", "auth_token",
                       "jwt_secret", "jwt_method", "enable_api"]
@@ -65,7 +64,7 @@ def print_run_or_instructions(args: argparse.Namespace, path: Text) -> None:
 
 def init_project(args: argparse.Namespace, path: Text) -> None:
     _create_initial_project(path)
-    print("Created project directory at '{}'.".format(os.path.abspath(path)))
+    print(f"Created project directory at '{os.path.abspath(path)}'.")
     print_train_or_instructions(args, path)
 
 
@@ -87,10 +86,9 @@ def print_cancel() -> None:
 
 
 def _ask_create_path(path: Text) -> None:
-    should_create = questionary.confirm("Path '{}' does not exist 🧐. "
-                                        "Should I create it?"
-                                        "".format(path)).ask()
-    if should_create:
+    if should_create := questionary.confirm(
+        f"Path '{path}' does not exist 🧐. Should I create it?"
+    ).ask():
         os.makedirs(path)
     else:
         print_success("Ok. Then I stop here. If you need me again, simply type "
@@ -99,8 +97,9 @@ def _ask_create_path(path: Text) -> None:
 
 
 def _ask_overwrite(path: Text) -> None:
-    overwrite = questionary.confirm("Directory '{}' is not empty. Continue?"
-                                    "".format(os.path.abspath(path))).ask()
+    overwrite = questionary.confirm(
+        f"Directory '{os.path.abspath(path)}' is not empty. Continue?"
+    ).ask()
     if not overwrite:
         print_cancel()
 

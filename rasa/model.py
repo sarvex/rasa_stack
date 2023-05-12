@@ -58,10 +58,7 @@ def get_latest_model(model_path: Text = DEFAULT_MODELS_PATH) -> Optional[Text]:
 
     list_of_files = glob.glob(os.path.join(model_path, "*.tar.gz"))
 
-    if len(list_of_files) == 0:
-        return None
-
-    return max(list_of_files, key=os.path.getctime)
+    return None if not list_of_files else max(list_of_files, key=os.path.getctime)
 
 
 def unpack_model(model_file: Text, working_directory: Optional[Text] = None
@@ -86,7 +83,7 @@ def unpack_model(model_file: Text, working_directory: Optional[Text] = None
     # All files are in a subdirectory.
     tar.extractall(working_directory)
     tar.close()
-    logger.debug("Extracted model to '{}'.".format(working_directory))
+    logger.debug(f"Extracted model to '{working_directory}'.")
 
     return working_directory
 
@@ -230,8 +227,7 @@ def core_fingerprint_changed(fingerprint1: Fingerprint,
                      FINGERPRINT_DOMAIN_KEY, FINGERPRINT_STORIES_KEY,
                      FINGERPRINT_RASA_VERSION_KEY]
 
-    return any(
-        [fingerprint1.get(k) != fingerprint2.get(k) for k in relevant_keys])
+    return any(fingerprint1.get(k) != fingerprint2.get(k) for k in relevant_keys)
 
 
 def nlu_fingerprint_changed(fingerprint1: Fingerprint,
@@ -249,8 +245,7 @@ def nlu_fingerprint_changed(fingerprint1: Fingerprint,
     relevant_keys = [FINGERPRINT_CONFIG_KEY, FINGERPRINT_NLU_VERSION_KEY,
                      FINGERPRINT_NLU_DATA_KEY, FINGERPRINT_RASA_VERSION_KEY]
 
-    return any(
-        [fingerprint1.get(k) != fingerprint2.get(k) for k in relevant_keys])
+    return any(fingerprint1.get(k) != fingerprint2.get(k) for k in relevant_keys)
 
 
 def merge_model(source: Text, target: Text) -> bool:

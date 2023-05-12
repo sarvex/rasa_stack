@@ -32,14 +32,14 @@ def run(model: Text, endpoints: Text, connector: Text = None,
     model_path = get_model(model)
     _agent = create_agent(model_path, endpoints)
 
-    if not connector and not credentials:
+    if connector or credentials:
+        channel = connector
+
+    else:
         channel = "cmdline"
         logger.info("No chat connector configured, falling back to the "
                     "command line. Use `rasa configure channel` to connect"
                     "the bot to e.g. facebook messenger.")
-    else:
-        channel = connector
-
     kwargs = minimal_kwargs(kwargs, rasa_core.run.serve_application)
     rasa_core.run.serve_application(_agent, channel=channel,
                                     credentials_file=credentials,

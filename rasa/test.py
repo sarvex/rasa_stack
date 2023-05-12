@@ -74,9 +74,8 @@ def test_nlu_with_cross_validation(config: Text, nlu: Text, folds: int = 3):
     nlu_config = rasa_nlu.config.load(config)
     data = rasa_nlu.training_data.load_data(nlu)
     data = nlu_test.drop_intents_below_freq(data, cutoff=5)
-    results, entity_results = nlu_test.cross_validate(data, int(folds),
-                                                      nlu_config)
-    logger.info("CV evaluation (n={})".format(folds))
+    results, entity_results = nlu_test.cross_validate(data, folds, nlu_config)
+    logger.info(f"CV evaluation (n={folds})")
 
     if any(results):
         logger.info("Intent evaluation results")
