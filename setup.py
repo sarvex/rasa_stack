@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 tests_requires = [
-    "pytest~=3.0",
+    "pytest~=9.0",
     "pytest-pycodestyle~=1.3",
     "pytest-cov~=2.0",
 ]
